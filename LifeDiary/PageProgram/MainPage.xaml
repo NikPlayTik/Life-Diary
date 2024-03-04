@@ -18,7 +18,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Запись -->
-                <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="#1F1277" Padding="15" CornerRadius="30" Margin="20, 25, 25, 0">
+                <Frame Grid.Row="0" Grid.Column="0"  BackgroundColor="#1F1277" Padding="15" CornerRadius="30" Margin="20, 25, 25, 0">
                     <StackLayout>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -31,7 +31,7 @@
 
                             <Label Grid.Row="0" Grid.Column="0" Text="Дата/
                                время" FontAttributes="Bold" FontSize="22" TextColor="#FF8F62" Margin="0, 0, 0, 0"/>
-                            <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#D6FD57" CornerRadius="35" Padding="7, 15, 0, 0">
+                            <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#D6FD57" CornerRadius="35" Padding="7, 15, 0, 0" VerticalOptions="Start" HeightRequest="60">
                                 <StackLayout>
                                     <Label Text="Записи" TextColor="#FF841C" FontAttributes="Bold"  FontSize="20"/>
                                 </StackLayout>
@@ -52,12 +52,13 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="#D6FD57" CornerRadius="35" Padding="7, 15, 0, 0" HeightRequest="60">
+                            <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="#D6FD57" CornerRadius="35" Padding="7, 15, 0, 0" VerticalOptions="Start" HeightRequest="60">
                                 <StackLayout>
                                     <Label Text="Медиа" TextColor="#FF841C" FontAttributes="Bold" FontSize="20"/>
                                 </StackLayout>
                             </Frame>
                         </Grid>
+                        <Image Margin="0, 10, 0, 0"/>
                     </StackLayout>
                 </Frame>
             </Grid>
@@ -65,17 +66,63 @@
             <!-- Цель -->
             <Frame BackgroundColor="#1F1277" Padding="15" CornerRadius="30" Margin="20, 25, 20, 0">
                 <StackLayout>
-                    <Label Text="Дедлайн" FontAttributes="Bold" FontSize="22" TextColor="#FF8F62"/>
+                    <!-- Дедлайн и подложка -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" Text="Дедлайн" FontAttributes="Bold" FontSize="22" TextColor="#FF8F62" Margin="0, 0, 20, 0" Padding="0, 13, 0, 0"/>
+                        <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#D6FD57" CornerRadius="35" Padding="60, 15, 0, 0" VerticalOptions="Start" HeightRequest="60">
+                            <StackLayout>
+                                <Label Text="Цели" TextColor="#FF841C" FontAttributes="Bold"  FontSize="20"/>
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
+                    
                     <Label Text="Краткое описание к цели. Точнее название" TextColor="White" FontAttributes="Bold" FontSize="22" Margin="0, 10, 0, 0"/>
-                    <ProgressBar Progress="0.15" BackgroundColor="#555" HeightRequest="10" Margin="0, 10, 0, 0"/>
+
+                    <!-- Прогресс -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <ProgressBar Grid.Row="0" Grid.Column="0" Progress="0.15" BackgroundColor="#555" HeightRequest="12" Margin="0, 10, 0, 0"/>
+                        <Label Grid.Row="1" Grid.Column="0" Text="Прогресс: 15%" TextColor="White" FontAttributes="Bold" FontSize="22" Margin="0, 0, 0, 0" HorizontalOptions="EndAndExpand"/>
+                    </Grid>
                 </StackLayout>
             </Frame>
 
             <!-- Достижение -->
             <Frame BackgroundColor="#1F1277" Padding="20" CornerRadius="30" Margin="20, 25, 20, 0">
                 <StackLayout>
-                    <Label Text="Время 
-                           получения" FontAttributes="Bold" FontSize="22" TextColor="#FF8F62"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Text="Время 
+                           получения" FontAttributes="Bold" FontSize="22" TextColor="#FF8F62" Margin="0, 0, 20, 0"/>
+                        <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#D6FD57" CornerRadius="35" Padding="15, 15, 0, 0" VerticalOptions="Start" HeightRequest="60">
+                            <StackLayout>
+                                <Label Text="Достижения" TextColor="#FF841C" FontAttributes="Bold" FontSize="20"/>
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
+                    
                     <Label Text="Краткое описание достижения. Получил золотой кубок мира на чемпионате по футболу..." TextColor="White" FontAttributes="Bold" FontSize="22" Margin="0, 10, 0, 0"/>
                 </StackLayout>
             </Frame>
