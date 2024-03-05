@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LifeDiary.PageProgram.MPEntries"
+             BackgroundColor="#0F1924">
+
+    <ScrollView>
+        <StackLayout Spacing="10">
+
+            <!-- В главное меня -->
+            <StackLayout Margin="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Row="0" Grid.Column="0" Text="←    В главное меню" TextColor="White" FontAttributes="Bold"  FontSize="22" BackgroundColor="Transparent" CornerRadius="30" Padding="10, 5, 10, 5" HorizontalOptions="StartAndExpand" Clicked="OnButtonTransitionMainPage"/>
+
+
+                </Grid>
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
