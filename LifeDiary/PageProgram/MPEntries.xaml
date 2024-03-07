@@ -15,11 +15,11 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="0.3*"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Row="0" Grid.Column="0" Text="←    В главное меню" TextColor="White" FontAttributes="Bold" FontSize="22" BackgroundColor="Transparent" CornerRadius="30" Padding="10, 5, 10, 5" HorizontalOptions="StartAndExpand" Clicked="OnButtonTransitionMainPage"/>
-                    <Button Grid.Row="0" Grid.Column="1" Margin="0,0,0,0" CornerRadius="20" WidthRequest="50" HeightRequest="50" TextColor="White" BackgroundColor="#6D7FBB" Text="+" FontSize="20" FontAttributes="Bold" Clicked="AddEntries"/>
+                    <Button Grid.Row="0" Grid.Column="1" WidthRequest="60" HeightRequest="60" Margin="10,0,0,0" CornerRadius="25" TextColor="White" BackgroundColor="#6D7FBB" Text="+" FontSize="20" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center" Clicked="AddEntries"/>
 
                 </Grid>
             </StackLayout>

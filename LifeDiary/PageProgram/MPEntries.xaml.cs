@@ -91,7 +91,7 @@ public partial class MPEntries : ContentPage
                 FontAttributes = FontAttributes.Bold,
                 FontSize = 20,
                 TextColor = Color.FromHex("#ffffff"),
-                HorizontalTextAlignment = TextAlignment.Start,
+                HorizontalTextAlignment = TextAlignment.End,
                 VerticalTextAlignment = TextAlignment.Center
             };
 
