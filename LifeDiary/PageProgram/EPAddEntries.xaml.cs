@@ -17,7 +17,11 @@ public partial class EPAddEntries : ContentPage
         DiaryEntry = new DiaryEntryModel();
         this.BindingContext = DiaryEntry;
     }
-
+    private void OnButtonTransitionMainPage(object sender, EventArgs e)
+    {
+        MainPage.IsButtonEntriesClicked = false;
+        Navigation.PopAsync(); // Возвращаемся назад
+    }
     async void Save_Clicked(object sender, EventArgs e)
     {
         if (string.IsNullOrWhiteSpace(DiaryEntry.Title) || string.IsNullOrWhiteSpace(DiaryEntry.Description))

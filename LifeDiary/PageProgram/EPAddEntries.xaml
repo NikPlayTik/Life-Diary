@@ -15,7 +15,7 @@
                     <ColumnDefinition Width="0.3*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Row="0" Grid.Column="0" Text="←    В главное меню" TextColor="White" FontAttributes="Bold" FontSize="22" BackgroundColor="Transparent" CornerRadius="30" Padding="10, 5, 10, 5" HorizontalOptions="StartAndExpand"/>
+                <Button Grid.Row="0" Grid.Column="0" Text="←    Назад" TextColor="White" FontAttributes="Bold" FontSize="22" BackgroundColor="Transparent" CornerRadius="30" Padding="10, 5, 10, 5" HorizontalOptions="StartAndExpand" Clicked="OnButtonTransitionMainPage"/>
 
             </Grid>
 
