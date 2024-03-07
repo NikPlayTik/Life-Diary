@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Core.Views;
 using CommunityToolkit.Maui.Views;
 using System.Collections.ObjectModel;
 
@@ -23,49 +24,17 @@ public partial class MPEntries : ContentPage
         return base.OnBackButtonPressed();
     }
 
-
-    // Нажатие на фрейм чтобы появилось контекстное меню
-    private async void Frame_Tapped(object sender, EventArgs e)
-    {
-        string action = await DisplayActionSheet(null, null, null, "Редактировать", "Удалить");
-        switch (action)
-        {
-            case "Редактировать":
-                // Действие для редактирования
-                EditItem();
-                break;
-            case "Удалить":
-                // Действие для удаления
-                DeleteItem();
-                break;
-        }
-    }
-    private void EditItem()
-    {
-        // Реализация логики редактирования
-        DisplayAlert("Редактирование", "Вы выбрали редактировать элемент", "OK");
-    }
-    private void DeleteItem()
-    {
-        // Реализация логики удаления
-        DisplayAlert("Удаление", "Вы выбрали удалить элемент", "OK");
-    }
-    private async void AddEntries(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new EPAddEntries());
-    }
-
     // Выгрузка данных из окна добавить запись
     protected override void OnAppearing()
     {
         base.OnAppearing();
         LoadEntries();
     }
-    private void LoadEntries()
+    private async void LoadEntries()
     {
         EntriesStackLayout.Children.Clear(); // Очищаем текущие записи в UI
-
-        foreach (var entry in DataStore.Entries)
+        var entries = await App.Database.GetEntriesAsync();
+        foreach (var entry in entries) // Используем записи из SQLite
         {
             var entryFrame = new Frame
             {
@@ -75,25 +44,45 @@ public partial class MPEntries : ContentPage
                 Margin = new Thickness(0, 0, 0, 20) // Добавляем нижний отступ для разделения записей
             };
 
+            // Добавляем обработчик событий Tapped если 2 раза нажать
+            var tapGestureRecognizer = new TapGestureRecognizer();
+            tapGestureRecognizer.Tapped += Frame_Tapped;
+            entryFrame.GestureRecognizers.Add(tapGestureRecognizer);
+
+            // Устанавливаем BindingContext для фрейма
+            entryFrame.BindingContext = entry;
             var contentStackLayout = new StackLayout();
 
             var headerGrid = new Grid
             {
-                RowDefinitions = { new RowDefinition { Height = GridLength.Auto } },
+                RowDefinitions = 
+                { 
+                    new RowDefinition 
+                    { 
+                        Height = new GridLength(70, GridUnitType.Absolute) 
+                    } 
+                },
                 ColumnDefinitions =
-            {
-                new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-                new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) }
-            }
+                {
+                    new ColumnDefinition 
+                    { 
+                        Width = new GridLength(1, GridUnitType.Star) 
+                    },
+                    new ColumnDefinition 
+                    { 
+                        Width = new GridLength(2, GridUnitType.Star) 
+                    }
+                }
             };
 
             var dateLabel = new Label
             {
-                Text = entry.Date.ToString("g"),
+                Text = entry.Date.ToString("dd.MM.yyyy HH:mm"), // Изменение формата даты и времени
                 FontAttributes = FontAttributes.Bold,
-                FontSize = 22,
+                FontSize = 17,
                 TextColor = Color.FromHex("#FF8F62"),
-                HorizontalOptions = LayoutOptions.Start
+                HorizontalOptions = LayoutOptions.Start,
+                Margin = new Thickness(0, 18, 0, 0)
             };
 
             var titleLabel = new Label
@@ -102,7 +91,7 @@ public partial class MPEntries : ContentPage
                 FontAttributes = FontAttributes.Bold,
                 FontSize = 20,
                 TextColor = Color.FromHex("#ffffff"),
-                HorizontalTextAlignment = TextAlignment.Center,
+                HorizontalTextAlignment = TextAlignment.Start,
                 VerticalTextAlignment = TextAlignment.Center
             };
 
@@ -135,31 +124,51 @@ public partial class MPEntries : ContentPage
             },
                 Margin = new Thickness(0, 10)
             };
-
-            var image1 = new Image
-            {
-                BackgroundColor = Color.FromHex("#808080"),
-                HeightRequest = 130,
-                Margin = new Thickness(0, 0, 10, 0)
-            };
-
-            var image2 = new Image
-            {
-                BackgroundColor = Color.FromHex("#808080"),
-                HeightRequest = 130,
-                Margin = new Thickness(10, 0, 0, 0)
-            };
-
-            imagesGrid.Children.Add(image1);
-            Grid.SetColumn(image1, 0); // Правильно устанавливаем позицию для первого изображения
-
-            imagesGrid.Children.Add(image2);
-            Grid.SetColumn(image2, 1); // Правильно устанавливаем позицию для второго изображения
-
-            contentStackLayout.Children.Add(imagesGrid);
-
             entryFrame.Content = contentStackLayout;
             EntriesStackLayout.Children.Add(entryFrame);
         }
+    }
+
+    // Нажатие на фрейм чтобы появилось контекстное меню
+    private async void Frame_Tapped(object sender, EventArgs e)
+    {
+        var frame = (Frame)sender;
+        var entry = (DiaryEntryModel)frame.BindingContext;
+
+        string action = await DisplayActionSheet(null, null, null, "Редактировать", "Удалить");
+        switch (action)
+        {
+            case "Редактировать":
+                // Действие для редактирования
+                EditItem(entry);
+                break;
+            case "Удалить":
+                // Действие для удаления
+                DeleteItem(entry);
+                break;
+        }
+    }
+    private void EditItem(DiaryEntryModel entry)
+    {
+        // Реализация логики редактирования
+        DisplayAlert("Редактирование", "Вы выбрали редактировать элемент", "OK");
+    }
+    private async void DeleteItem(DiaryEntryModel entry)
+    {
+        // Реализация логики удаления
+        var result = await App.Database.DeleteEntryAsync(entry);
+        if (result == 1) // Если удаление прошло успешно
+        {
+            DisplayAlert("Удаление", "Запись успешно удалена", "OK");
+            LoadEntries(); // Обновляем список записей
+        }
+        else
+        {
+            DisplayAlert("Ошибка", "Произошла ошибка при удалении записи", "OK");
+        }
+    }
+    private async void AddEntries(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new EPAddEntries());
     }
 }

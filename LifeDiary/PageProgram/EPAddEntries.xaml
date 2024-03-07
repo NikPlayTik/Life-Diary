@@ -40,9 +40,9 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <DatePicker Grid.Row="0" Grid.Column="0" Date="{Binding Date}" FontAttributes="Bold" FontSize="22" TextColor="#FF8F62"/>
+                                <DatePicker Grid.Row="0" Grid.Column="0" Date="{Binding Date}" FontAttributes="Bold" FontSize="22" TextColor="#FF8F62" VerticalOptions="Center"/>
                                 <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#6D7FBB" CornerRadius="35" Padding="10, 5, 10, 0" HeightRequest="60">
-                                    <Entry Text="{Binding Title}" TextColor="White" FontAttributes="Bold" FontSize="20" HeightRequest="45"/>
+                                    <Entry Text="{Binding Title}" TextColor="White" FontAttributes="Bold" FontSize="15" HeightRequest="45" Placeholder="Заголовок тут..." PlaceholderColor="#98e38d"/>
                                 </Frame>
                             </Grid>
 

@@ -2,6 +2,7 @@
 
 public partial class MainPage : ContentPage
 {
+    // Поля для исправления повторного нажатия
     public static bool IsButtonEntriesClicked = false;
     public static bool IsButtonGoalsClicked = false;
     public static bool IsButtonAchievementsClicked = false;
@@ -12,6 +13,7 @@ public partial class MainPage : ContentPage
         UpdateButtonState();
     }
 
+    // Переход в окно ЗАПИСИ
     private void OnButtonEntriesClicked(object sender, EventArgs e)
     {
         // проверка на переход если кнопка уже была нажата
@@ -30,6 +32,8 @@ public partial class MainPage : ContentPage
             Navigation.PushAsync(new MPEntries());
         }
     }
+
+    // Переход в окно ЦЕЛИ
     private void OnButtonGoalsClicked(object sender, EventArgs e)
     {
         if (!IsButtonGoalsClicked)
@@ -38,6 +42,8 @@ public partial class MainPage : ContentPage
             Navigation.PushAsync(new MPGoals());
         }
     }
+
+    // Переход в окно ДОСТИЖЕНИЯ
     private void OnButtonAchievementsClicked(object sender, EventArgs e)
     {
         if (!IsButtonAchievementsClicked)
@@ -53,10 +59,24 @@ public partial class MainPage : ContentPage
         ButtonAchievements.IsEnabled = !IsButtonAchievementsClicked;
 
     }
-    protected override void OnAppearing()
+
+    // Загрузка недавних добавленных ЗАПИСЕЙ
+    private async Task LoadLastEntry()
+    {
+        var entries = await App.Database.GetEntriesAsync();
+        var lastEntry = entries.LastOrDefault();
+        if (lastEntry != null)
+        {
+            LastEntryDate.Text = lastEntry.Date.ToString("dd.MM.yyyy HH:mm");
+            ButtonEntries.Text = lastEntry.Title;
+            LastEntryDescription.Text = lastEntry.Description;
+        }
+    }
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
         UpdateButtonState();
+        await LoadLastEntry();
     }
     
 

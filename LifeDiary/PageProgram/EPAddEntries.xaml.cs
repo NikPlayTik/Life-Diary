@@ -14,7 +14,11 @@ public partial class EPAddEntries : ContentPage
     {
         InitializeComponent();
 
-        DiaryEntry = new DiaryEntryModel();
+        DiaryEntry = new DiaryEntryModel
+        {
+            Date = DateTime.Now, // Установка текущей даты
+            Time = DateTime.Now.TimeOfDay // Установка текущего времени
+        };
         this.BindingContext = DiaryEntry;
     }
     private void OnButtonTransitionMainPage(object sender, EventArgs e)
@@ -29,8 +33,8 @@ public partial class EPAddEntries : ContentPage
             await DisplayAlert("Ошибка", "Название и описание не могут быть пустыми.", "OK");
             return;
         }
-        DataStore.Entries.Add(DiaryEntry); // Добавляем запись в коллекцию
-        // Здесь добавьте логику сохранения DiaryEntry в ваше хранилище данных
+        DiaryEntry.Date = DiaryEntry.Date.Date + DiaryEntry.Time;
+        await App.Database.SaveEntryAsync(DiaryEntry); // Добавляем запись в коллекцию
         await Navigation.PopAsync();
     }
 }

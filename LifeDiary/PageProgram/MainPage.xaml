@@ -22,19 +22,18 @@
                     <StackLayout>
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="60"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Row="0" Grid.Column="0" Text="Дата/
-                               время" FontAttributes="Bold" FontSize="22" TextColor="#FF8F62" Margin="0, 0, 0, 0"/>
+                            <Label x:Name="LastEntryDate" Grid.Row="0" Grid.Column="0" Text="Дата/время" FontAttributes="Bold" FontSize="15" TextColor="#FF8F62" Margin="0, 0, 0, 0" VerticalOptions="Center"/>
                             <Button x:Name="ButtonEntries" Grid.Row="0" Grid.Column="1" Text="Записи" TextColor="White" FontAttributes="Bold"  FontSize="20" BackgroundColor="#6D7FBB" CornerRadius="35" Padding="0, 0, 0, 0" VerticalOptions="Start" HeightRequest="60" Clicked="OnButtonEntriesClicked"/>
 
                         </Grid>
-                        <Label Text="Описание к записи. Съешь же ещё этих мягких французских булок..." TextColor="White" FontAttributes="Bold" FontSize="22" Margin="0, 10, 0, 0"/>
+                        <Label x:Name="LastEntryDescription" Text="Описание к записи" TextColor="White" FontAttributes="Bold" FontSize="22" Margin="0, 10, 0, 0"/>
                     </StackLayout>
                 </Frame>
 
