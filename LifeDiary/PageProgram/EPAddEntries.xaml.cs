@@ -10,15 +10,25 @@ public partial class EPAddEntries : ContentPage
 {
     public DiaryEntryModel DiaryEntry { get; set; }
 
-    public EPAddEntries()
+    public EPAddEntries(DiaryEntryModel entry = null)
     {
         InitializeComponent();
 
-        DiaryEntry = new DiaryEntryModel
+        if (entry == null)
         {
-            Date = DateTime.Now, // Установка текущей даты
-            Time = DateTime.Now.TimeOfDay // Установка текущего времени
-        };
+            // Создаем новую запись, если не было передано существующей
+            DiaryEntry = new DiaryEntryModel
+            {
+                Date = DateTime.Now, // Установка текущей даты
+                Time = DateTime.Now.TimeOfDay // Установка текущего времени
+            };
+        }
+        else
+        {
+            // Используем переданную запись
+            DiaryEntry = entry;
+        }
+
         this.BindingContext = DiaryEntry;
     }
     private void OnButtonTransitionMainPage(object sender, EventArgs e)

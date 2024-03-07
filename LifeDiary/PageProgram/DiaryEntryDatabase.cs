@@ -22,7 +22,14 @@ namespace LifeDiary.PageProgram
         }
         public Task<int> SaveEntryAsync(DiaryEntryModel entry)
         {
-            return _database.InsertAsync(entry);
+            if (entry.Id != 0)
+            {
+                return _database.UpdateAsync(entry); // Обновляем запись, если она уже существует
+            }
+            else
+            {
+                return _database.InsertAsync(entry); // Вставляем новую запись, если это новая запись
+            }
         }
         public Task<int> DeleteEntryAsync(DiaryEntryModel entry)
         {

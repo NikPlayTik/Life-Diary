@@ -148,10 +148,9 @@ public partial class MPEntries : ContentPage
                 break;
         }
     }
-    private void EditItem(DiaryEntryModel entry)
+    private async void EditItem(DiaryEntryModel entry)
     {
-        // Реализация логики редактирования
-        DisplayAlert("Редактирование", "Вы выбрали редактировать элемент", "OK");
+        await Navigation.PushAsync(new EPAddEntries(entry));
     }
     private async void DeleteItem(DiaryEntryModel entry)
     {

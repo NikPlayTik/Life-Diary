@@ -32,7 +32,7 @@ public partial class MainPage : ContentPage
             Navigation.PushAsync(new MPEntries());
         }
     }
-
+    
     // Переход в окно ЦЕЛИ
     private void OnButtonGoalsClicked(object sender, EventArgs e)
     {
@@ -61,6 +61,11 @@ public partial class MainPage : ContentPage
     }
 
     // Загрузка недавних добавленных ЗАПИСЕЙ
+    private string TrimDescription(string description, int maxLength = 100)
+    {
+        if (string.IsNullOrEmpty(description)) return description;
+        return description.Length <= maxLength ? description : $"{description.Substring(0, maxLength)}...";
+    }
     private async Task LoadLastEntry()
     {
         var entries = await App.Database.GetEntriesAsync();
@@ -69,7 +74,7 @@ public partial class MainPage : ContentPage
         {
             LastEntryDate.Text = lastEntry.Date.ToString("dd.MM.yyyy HH:mm");
             ButtonEntries.Text = lastEntry.Title;
-            LastEntryDescription.Text = lastEntry.Description;
+            LastEntryDescription.Text = TrimDescription(lastEntry.Description, 60);
         }
     }
     protected override async void OnAppearing()
