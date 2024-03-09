@@ -65,16 +65,28 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Label Grid.Row="0" Grid.Column="0" Text="Дедлайн" FontAttributes="Bold" FontSize="22" TextColor="#FF8F62" Margin="0, 0, 20, 0" Padding="0, 13, 0, 0"/>
-                        <Button x:Name="ButtonGoals" Grid.Row="0" Grid.Column="1" Text="Цели" TextColor="White" FontAttributes="Bold"  FontSize="20" BackgroundColor="#6D7FBB" CornerRadius="35" Padding="0, 0, 0, 0" VerticalOptions="Start" HeightRequest="60" Clicked="OnButtonGoalsClicked"/>
+                        <Label x:Name="LastGoalDate" Grid.Row="0" Grid.Column="0" Text="Дедлайн" FontAttributes="Bold" FontSize="16" TextColor="#FF8F62" Margin="0, 0, 20, 0" Padding="0, 13, 0, 0"/>
+                        <StackLayout Grid.Row="0" Grid.Column="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions >
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button  x:Name="ButtonGoals"  BackgroundColor="#6D7FBB" CornerRadius="35" Padding="0, 0, 0, 0" VerticalOptions="Start" HeightRequest="60" Clicked="OnButtonGoalsClicked"/>
+                                <Ellipse x:Name="LastGoalEllipse" Grid.Row="0"  WidthRequest="35" HeightRequest="35" Fill="#5AFD57" HorizontalOptions="End" Margin="0,0,15,0"/>
+                            </Grid>                  
+                        </StackLayout>
 
                     </Grid>
-                    
-                    <Label Text="Краткое описание к цели. Точнее название" TextColor="White" FontAttributes="Bold" FontSize="22" Margin="0, 10, 0, 0"/>
+
+                    <Label x:Name="LastGoalDescription" Text="Краткое описание к цели. Точнее название" TextColor="White" FontAttributes="Bold" FontSize="22" Margin="0, 10, 0, 0"/>
 
                     <!-- Прогресс -->
                     <Grid>
@@ -86,8 +98,8 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <ProgressBar Grid.Row="0" Grid.Column="0" Progress="0.75" BackgroundColor="Transparent" HeightRequest="12" Margin="0, 10, 0, 0"/>
-                        <Label Grid.Row="1" Grid.Column="0" Text="Прогресс: 75%" TextColor="White" FontAttributes="Bold" FontSize="22" Margin="0, 0, 0, 0" HorizontalOptions="EndAndExpand"/>
+                        <ProgressBar x:Name="LastGoalProgress" Grid.Row="0" Grid.Column="0" Progress="0.75" BackgroundColor="Transparent" HeightRequest="12" Margin="0, 10, 0, 0"/>
+                        <Label x:Name="LastGoalProgressPercent" Grid.Row="1" Grid.Column="0" Text="Прогресс: 75%" TextColor="White" FontAttributes="Bold" FontSize="22" Margin="0, 0, 0, 0" HorizontalOptions="EndAndExpand"/>
                     </Grid>
                 </StackLayout>
             </Frame>
@@ -100,12 +112,11 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Label Text="Время 
-                           получения" FontAttributes="Bold" FontSize="22" TextColor="#FF8F62" Margin="0, 0, 20, 0"/>
+                        <Label Text="Время получения" FontAttributes="Bold" FontSize="22" TextColor="#FF8F62" Margin="0, 0, 20, 0"/>
                         <Button x:Name="ButtonAchievements" Grid.Row="0" Grid.Column="1" Text="Достижения" TextColor="White" FontAttributes="Bold" FontSize="20" BackgroundColor="#6D7FBB" CornerRadius="35" Padding="0, 0, 0, 0" VerticalOptions="Start" HeightRequest="60" Clicked="OnButtonAchievementsClicked"/>
                     </Grid>
                     
