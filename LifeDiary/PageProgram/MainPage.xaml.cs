@@ -97,7 +97,7 @@ public partial class MainPage : ContentPage
             }
         }
     }
-    
+
 
     // Переход в окно ДОСТИЖЕНИЯ
     private void OnButtonAchievementsClicked(object sender, EventArgs e)
