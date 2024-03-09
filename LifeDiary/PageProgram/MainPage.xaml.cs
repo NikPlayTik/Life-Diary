@@ -72,6 +72,18 @@ public partial class MainPage : ContentPage
             // Вычисляем количество дней до дедлайна
             var daysToDeadline = (lastGoal.Deadline - DateTime.Now).TotalDays;
 
+            // Устанавливаем текст для DaysLeftLabel в зависимости от количества дней
+            if (daysToDeadline < 1)
+            {
+                DaysLeftLabel.Text = "Скорее завершить! День окончания цели";
+            }
+            else
+            {
+                // Тернарное условие на написание дня, дней, день
+                var daysText = daysToDeadline == 1 ? "день" : daysToDeadline >= 2 && daysToDeadline <= 4 ? "дня" : "дней";
+                DaysLeftLabel.Text = $"Осталось: {Math.Ceiling(daysToDeadline)} {daysText}";
+            }
+
             // Устанавливаем цвет эллипса в зависимости от количества дней до дедлайна
             if (daysToDeadline > 7)
             {
