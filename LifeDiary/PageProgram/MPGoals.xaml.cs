@@ -99,24 +99,40 @@ public partial class MPGoals : ContentPage
             var headerGrid = new Grid
             {
                 RowDefinitions =
-            {
-                new RowDefinition
                 {
-                    Height = new GridLength(70, GridUnitType.Absolute)
-                }
+                    new RowDefinition
+                    {
+                        Height = new GridLength(70, GridUnitType.Absolute)
+                    }
             },
                 ColumnDefinitions =
-            {
-                new ColumnDefinition
-                {
-                    Width = new GridLength(1, GridUnitType.Star)
+                    {
+                        new ColumnDefinition
+                    {
+                        Width = new GridLength(1, GridUnitType.Auto)
                 },
-                new ColumnDefinition
-                {
-                    Width = new GridLength(2, GridUnitType.Star)
-                }
-            }
+                        new ColumnDefinition
+                        {
+                            Width = new GridLength(2, GridUnitType.Star)
+                        }
+        }
             };
+
+            // Вычисляем количество дней до дедлайна
+            var daysToDeadline = (goal.Deadline - DateTime.Now).TotalDays;
+
+            var dateGrid = new Grid
+            {
+                RowDefinitions =
+                {
+                    new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) },
+                    new RowDefinition { Height = new GridLength(1, GridUnitType.Auto) }
+                },  
+            };
+
+            headerGrid.Children.Add(dateGrid);
+            Grid.SetRow(dateGrid, 0);
+            Grid.SetColumn(dateGrid, 0);
 
             var dateLabel = new Label
             {
@@ -128,6 +144,16 @@ public partial class MPGoals : ContentPage
                 Margin = new Thickness(0, 18, 0, 0)
             };
 
+            // Создаем метку для отображения оставшихся дней
+            var daysLeftLabel = new Label
+            {
+                Text = daysToDeadline < 1 ? "Скорее завершить!" : $"Осталось: {Math.Ceiling(daysToDeadline)} {GetDaysWord(Math.Ceiling(daysToDeadline))}",
+                FontAttributes = FontAttributes.Bold,
+                FontSize = 14,
+                TextColor = Color.FromHex("#FF8F62"),
+                Margin = new Thickness(0, 0, 0, 10)
+            };
+
             // Создаем эллипс
             var deadlineEllipse = new Ellipse
             {
@@ -135,9 +161,6 @@ public partial class MPGoals : ContentPage
                 HeightRequest = 35,
                 HorizontalOptions = LayoutOptions.End,
             };
-
-            // Вычисляем количество дней до дедлайна
-            var daysToDeadline = (goal.Deadline - DateTime.Now).TotalDays;
 
             // Устанавливаем цвет эллипса в зависимости от количества дней до дедлайна
             if (daysToDeadline > 7)
@@ -152,7 +175,6 @@ public partial class MPGoals : ContentPage
             {
                 deadlineEllipse.Fill = Color.FromHex("#FF0000"); // Красный
             }
-
 
             // Добавляем эллипс в Grid
             headerGrid.Children.Add(deadlineEllipse);
@@ -192,12 +214,31 @@ public partial class MPGoals : ContentPage
 
             contentStackLayout.Children.Add(progressLabel); // Добавляем элемент в StackLayout
 
-            headerGrid.Children.Add(dateLabel); // Добавляем элемент без указания позиции
+            dateGrid.Children.Add(dateLabel); // Добавляем элемент без указания позиции
             Grid.SetRow(dateLabel, 0); // Устанавливаем строку для элемента
             Grid.SetColumn(dateLabel, 0); // Устанавливаем столбец для элемента
+
+            dateGrid.Children.Add(daysLeftLabel); // Добавляем элемент без указания позиции
+            Grid.SetRow(daysLeftLabel, 1); // Устанавливаем строку для элемента
+            Grid.SetColumn(daysLeftLabel, 0); // Устанавливаем столбец для элемента
 
             GoalsStackLayout.Children.Add(goalFrame);
         }
     }
-
+    private string GetDaysWord(double days)
+    {
+        int lastDigit = (int)days % 10;
+        if (days >= 11 && days <= 14 || lastDigit >= 5 && lastDigit <= 9 || lastDigit == 0)
+        {
+            return "дней";
+        }
+        else if (lastDigit >= 2 && lastDigit <= 4)
+        {
+            return "дня";
+        }
+        else
+        {
+            return "день";
+        }
+    }
 }
