@@ -79,9 +79,7 @@ public partial class MainPage : ContentPage
             }
             else
             {
-                // Тернарное условие на написание дня, дней, день
-                var daysText = daysToDeadline == 1 ? "день" : daysToDeadline >= 2 && daysToDeadline <= 4 ? "дня" : "дней";
-                DaysLeftLabel.Text = $"Осталось: {Math.Ceiling(daysToDeadline)} {daysText}";
+                DaysLeftLabel.Text = $"Осталось: {Math.Ceiling(daysToDeadline)} {GetDaysWord(Math.Ceiling(daysToDeadline))}";
             }
 
             // Устанавливаем цвет эллипса в зависимости от количества дней до дедлайна
@@ -99,6 +97,7 @@ public partial class MainPage : ContentPage
             }
         }
     }
+    
 
     // Переход в окно ДОСТИЖЕНИЯ
     private void OnButtonAchievementsClicked(object sender, EventArgs e)
@@ -111,7 +110,7 @@ public partial class MainPage : ContentPage
     }
 
     
-    // Общая
+    // Общие методы
     private void UpdateButtonState()
     {
         ButtonEntries.IsEnabled = !IsButtonEntriesClicked;
@@ -130,6 +129,22 @@ public partial class MainPage : ContentPage
     {
         if (string.IsNullOrEmpty(description)) return description;
         return description.Length <= maxLength ? description : $"{description.Substring(0, maxLength)}...";
+    }
+    private string GetDaysWord(double days)
+    {
+        int lastDigit = (int)days % 10;
+        if (days >= 11 && days <= 14 || lastDigit >= 5 && lastDigit <= 9 || lastDigit == 0)
+        {
+            return "дней";
+        }
+        else if (lastDigit >= 2 && lastDigit <= 4)
+        {
+            return "дня";
+        }
+        else
+        {
+            return "день";
+        }
     }
 
 
