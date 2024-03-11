@@ -10,10 +10,13 @@ public partial class StatsPage : ContentPage
 		InitializeComponent();
 
         App.Database = new DiaryEntryDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DiaryEntries.db3"));
-        UpdateCharts();
+        App.GoalsDatabase = new DiaryGoalsDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DiaryGoals.db3"));
+        App.AchievementsDatabase = new DiaryAchievementsDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DiaryAchievements.db3"));
+        EntriesCharts();
+        GoalsCharts();
     }
 
-    public async Task UpdateCharts()
+    public async Task EntriesCharts()
     {
         // Получаем данные из базы данных
         var entries = await App.Database.GetEntriesAsync();
@@ -62,12 +65,38 @@ public partial class StatsPage : ContentPage
             BackgroundColor = SKColors.Transparent
         };
         ActivityChartView.Chart = barChartActivity;
-
-
-
-
     }
 
+    public async Task GoalsCharts()
+    {
+        // Получаем данные из базы данных
+        var goals = await App.GoalsDatabase.GetGoalsAsync();
+
+        // Создаем данные для диаграммы
+        var goalsPerMonth = goals
+            .GroupBy(g => g.StartDate.ToString("MMMM"))
+            .ToDictionary(g => g.Key, g => g.Count());
+
+        // Создаем диаграмму 1 
+        var chartEntries = goalsPerMonth.Select(g => new ChartEntry(g.Value)
+        {
+            Label = g.Key,
+            ValueLabel = g.Value.ToString(),
+            ValueLabelColor = SKColor.Parse("#ffffff"),
+            Color = SKColor.Parse("#D6FD57")
+        }).ToList();
+
+        var pointChart = new PointChart
+        {
+            Entries = chartEntries,
+            LabelTextSize = 50f, // размер шрифта для меток
+            LabelColor = SKColor.Parse("#ffffff"),
+            AnimationDuration = TimeSpan.Zero,
+            BackgroundColor = SKColors.Transparent
+        };
+
+        GoalsChartView.Chart = pointChart;
+    }
 
     // Общая реализация
     private string GetTimeSlot(int hour)

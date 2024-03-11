@@ -22,7 +22,6 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
-                                <!--<RowDefinition Height="2*"/>-->
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -32,13 +31,13 @@
                             
                         </Grid>
                         <!-- Заголовок 1-й диаграммы -->
-                        <Label Text="Записи за месяц" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="20" Margin="0, 10, 0, 0"/>
+                        <Label Text="Записи по месяцам" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="20" Margin="0, 10, 0, 0"/>
                         <!-- Диаграмма 1 -->
-                        <micro:ChartView x:Name="BarChartView" HeightRequest="300" Margin="0, 30, 0, 50" />
+                        <micro:ChartView x:Name="BarChartView" HeightRequest="200" Margin="0, 30, 0, 50" />
                         <!-- Заголовок 2-й диаграммы -->
                         <Label Text="Записи за дни недели" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="20" />
                         <!-- Диаграмма 2 -->
-                        <micro:ChartView x:Name="ActivityChartView" HeightRequest="300" Margin="0, 10, 0, 10"/>
+                        <micro:ChartView x:Name="ActivityChartView" HeightRequest="250" Margin="0, 10, 0, 10"/>
                     </StackLayout>
                 </Frame>
             </Grid>
@@ -66,8 +65,10 @@
                             <Label Text="Цели" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="25" />
                             
                         </Grid>
+                        <!-- Заголовок 1-й диаграммы -->
+                        <Label Text="Цели по месяцам" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="20" Margin="0, 10, 0, 0"/>
                         <!-- Диаграмма 1 -->
-                        <micro:ChartView Margin="0, 10, 0, 0"/>
+                        <micro:ChartView x:Name="GoalsChartView" HeightRequest="300" Margin="0, 30, 0, 50"/>
                     </StackLayout>
                 </Frame>
             </Grid>
