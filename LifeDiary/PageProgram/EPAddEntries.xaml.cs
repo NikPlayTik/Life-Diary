@@ -46,5 +46,7 @@ public partial class EPAddEntries : ContentPage
         DiaryEntry.Date = DiaryEntry.Date.Date + DiaryEntry.Time;
         await App.Database.SaveEntryAsync(DiaryEntry); // Добавляем запись в коллекцию
         await Navigation.PopAsync();
+        StatsPage statsPage = new StatsPage();
+        await statsPage.UpdateCharts();
     }
 }

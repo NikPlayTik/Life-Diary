@@ -4,9 +4,9 @@ namespace LifeDiary;
 
 public partial class App : Application
 {
-    public static DiaryEntryDatabase Database { get; private set; }
-    public static DiaryGoalsDatabase GoalsDatabase { get; private set; }
-    public static DiaryAchievementsDatabase AchievementsDatabase { get; private set; }
+    public static DiaryEntryDatabase Database { get; set; }
+    public static DiaryGoalsDatabase GoalsDatabase { get; set; }
+    public static DiaryAchievementsDatabase AchievementsDatabase { get; set; }
     public App()
 	{
 		InitializeComponent();

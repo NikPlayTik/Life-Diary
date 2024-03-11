@@ -2,10 +2,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LifeDiary.PageProgram.StatsPage"
+             xmlns:micro="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              BackgroundColor="#0F1924">
 
     <ScrollView>
         <StackLayout Spacing="10">
+            <!-- ЗАПИСИ -->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -20,24 +22,28 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
+                                <!--<RowDefinition Height="2*"/>-->
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#6D7FBB" CornerRadius="35" Padding="0, 0, 0, 0" VerticalOptions="Start" HeightRequest="30">
-                                <Label Text="Записи" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="20" />
-                            </Frame>
-
+                            <Label Grid.Row="0" Grid.Column="0" Text="Записи" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="25" />
+                            
                         </Grid>
+                        <!-- Заголовок 1-й диаграммы -->
+                        <Label Text="Записи за месяц" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="20" Margin="0, 10, 0, 0"/>
                         <!-- Диаграмма 1 -->
-                        <Frame Margin="0, 10, 0, 0" HeightRequest="250" Opacity="0.5"/>
+                        <micro:ChartView x:Name="BarChartView" HeightRequest="300" Margin="0, 30, 0, 50" />
+                        <!-- Заголовок 2-й диаграммы -->
+                        <Label Text="Записи за дни недели" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="20" />
                         <!-- Диаграмма 2 -->
-                        <Frame Margin="0, 10, 0, 0" HeightRequest="250" Opacity="0.5"/>
+                        <micro:ChartView x:Name="ActivityChartView" HeightRequest="300" Margin="0, 10, 0, 10"/>
                     </StackLayout>
                 </Frame>
             </Grid>
 
+            <!-- ЦЕЛИ -->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -57,23 +63,16 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#6D7FBB" CornerRadius="35" Padding="0, 0, 0, 0" VerticalOptions="Start" HeightRequest="30">
-                                <Label Text="Цели" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="20" />
-                            </Frame>
-
+                            <Label Text="Цели" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="25" />
+                            
                         </Grid>
                         <!-- Диаграмма 1 -->
-                        <Frame Margin="0, 10, 0, 0" HeightRequest="250" Opacity="0.5"/>
-                        <!-- Диаграмма 2 -->
-                        <Frame Margin="0, 10, 0, 0" HeightRequest="250" Opacity="0.5"/>
-                        <!-- Диаграмма 3 -->
-                        <Frame Margin="0, 10, 0, 0" HeightRequest="250" Opacity="0.5"/>
-                        <!-- Диаграмма 4 -->
-                        <Frame Margin="0, 10, 0, 0" HeightRequest="250" Opacity="0.5"/>
+                        <micro:ChartView Margin="0, 10, 0, 0"/>
                     </StackLayout>
                 </Frame>
             </Grid>
 
+            <!-- ДОСТИЖЕНИЯ -->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -93,13 +92,12 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#6D7FBB" CornerRadius="35" Padding="0, 0, 0, 0" VerticalOptions="Start" HeightRequest="30">
-                                <Label Text="Достижения" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="20" />
-                            </Frame>
+                            <Label Text="Достижения" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="25" />
 
                         </Grid>
                         <!-- Диаграмма 1 -->
-                        <Frame Margin="0, 10, 0, 0" HeightRequest="250" Opacity="0.5"/>
+                        <micro:ChartView Margin="0, 10, 0, 0"/>
+                        
                     </StackLayout>
                 </Frame>
             </Grid>
