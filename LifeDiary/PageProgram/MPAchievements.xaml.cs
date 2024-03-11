@@ -70,11 +70,12 @@ public partial class MPAchievements : ContentPage
     {
         AchievementsStackLayout.Children.Clear(); // Очищаем текущие достижения в UI
         var achievements = await App.AchievementsDatabase.GetAchievementsAsync();
+        var goals = await App.GoalsDatabase.GetGoalsAsync(); // Получаем все цели
         foreach (var achievement in achievements) // Используем достижения из SQLite
         {
             var achievementFrame = new Frame
             {
-                BackgroundColor = achievement.AchievementId != 0 ? Color.FromHex("#4357AC") : Color.FromHex("#1F1277"),
+                BackgroundColor = achievement.GoalId != 0 ? Color.FromHex("#1F576F") : Color.FromHex("#1F1277"),
                 Padding = 15,
                 CornerRadius = 30,
                 Margin = new Thickness(0, 0, 0, 20) // Добавляем нижний отступ для разделения достижений
@@ -92,23 +93,23 @@ public partial class MPAchievements : ContentPage
             var headerGrid = new Grid
             {
                 RowDefinitions =
+            {
+                new RowDefinition
                 {
-                    new RowDefinition
-                    {
-                        Height = new GridLength(70, GridUnitType.Absolute)
-                    }
-            },
+                    Height = new GridLength(70, GridUnitType.Absolute)
+                }
+        },
                 ColumnDefinitions =
+                {
+                    new ColumnDefinition
+                {
+                    Width = new GridLength(1, GridUnitType.Auto)
+            },
+                    new ColumnDefinition
                     {
-                        new ColumnDefinition
-                    {
-                        Width = new GridLength(1, GridUnitType.Auto)
-                },
-                        new ColumnDefinition
-                        {
-                            Width = new GridLength(2, GridUnitType.Star)
-                        }
-        }
+                        Width = new GridLength(2, GridUnitType.Star)
+                    }
+    }
             };
 
             var dateLabel = new Label
@@ -129,6 +130,24 @@ public partial class MPAchievements : ContentPage
                 FontSize = 22,
                 Margin = new Thickness(0, 10)
             };
+
+            // Если GoalId достижения не равен нулю, добавляем метку с описанием связанной цели
+            if (achievement.GoalId != 0)
+            {
+                var relatedGoal = goals.FirstOrDefault(g => g.ID == achievement.GoalId); // Находим связанную цель
+                if (relatedGoal != null)
+                {
+                    var relatedGoalLabel = new Label
+                    {
+                        Text = $"Связанная цель: {relatedGoal.Description}",
+                        TextColor = Color.FromHex("#ffffff"),
+                        FontAttributes = FontAttributes.Bold,
+                        FontSize = 18,
+                        Margin = new Thickness(0, 10)
+                    };
+                    contentStackLayout.Children.Add(relatedGoalLabel);
+                }
+            }
 
             contentStackLayout.Children.Add(headerGrid);
             contentStackLayout.Children.Add(descriptionLabel);

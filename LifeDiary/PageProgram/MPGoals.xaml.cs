@@ -75,6 +75,7 @@ public partial class MPGoals : ContentPage
             {
                 Title = goal.Description.Substring(goal.Description.Length / 2), // Заголовок достижения берется из середины описания цели
                 Date = DateTime.Now, // Устанавливаем текущую дату
+                GoalId = goal.ID, // Устанавливаем GoalId для достижения
             };
 
             // Сохраняем новое достижение в базе данных
@@ -88,6 +89,7 @@ public partial class MPGoals : ContentPage
             MPAchievements mPAchievements = new MPAchievements();
             mPAchievements.RefreshAchievements();
         }
+
 
     // Выгрузка данных целей
     protected override void OnAppearing()
