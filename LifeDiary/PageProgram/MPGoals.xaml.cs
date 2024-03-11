@@ -31,7 +31,7 @@ public partial class MPGoals : ContentPage
         var frame = (Frame)sender;
         var goal = (DiaryGoalsModel)frame.BindingContext;
 
-        string action = await DisplayActionSheet(null, null, null, "Редактировать", "Удалить");
+        string action = await DisplayActionSheet(null, null, null, "Редактировать", "Удалить", "Связать с достижением");
         switch (action)
         {
             case "Редактировать":
@@ -41,6 +41,9 @@ public partial class MPGoals : ContentPage
             case "Удалить":
                 // Действие для удаления
                 DeleteItem(goal);
+                break;
+            case "Связать с достижением":
+                LinkToAchievement(goal);
                 break;
         }
     }
@@ -54,17 +57,36 @@ public partial class MPGoals : ContentPage
         }
         private async void DeleteItem(DiaryGoalsModel goal)
         {
-        // Реализация логики удаления
-        var result = await App.GoalsDatabase.DeleteGoalAsync(goal);
-        if (result == 1) // Если удаление прошло успешно
-        {
-            DisplayAlert("Удаление", "Цель успешно удалена", "OK");
-            LoadGoals(); // Обновляем список целей
+            // Реализация логики удаления
+            var result = await App.GoalsDatabase.DeleteGoalAsync(goal);
+            if (result == 1) // Если удаление прошло успешно
+            {
+                DisplayAlert("Удаление", "Цель успешно удалена", "OK");
+                LoadGoals(); // Обновляем список целей
+            }
+            else
+            {
+                DisplayAlert("Ошибка", "Произошла ошибка при удалении цели", "OK");
+            }
         }
-        else
+        private async void LinkToAchievement(DiaryGoalsModel goal)
         {
-            DisplayAlert("Ошибка", "Произошла ошибка при удалении цели", "OK");
-        }
+            var achievement = new DiaryAchievementsModel
+            {
+                Title = goal.Description.Substring(goal.Description.Length / 2), // Заголовок достижения берется из середины описания цели
+                Date = DateTime.Now, // Устанавливаем текущую дату
+            };
+
+            // Сохраняем новое достижение в базе данных
+            await App.AchievementsDatabase.SaveAchievementAsync(achievement);
+
+            // Устанавливаем AchievementId для цели
+            goal.AchievementId = achievement.ID;
+            await App.GoalsDatabase.SaveGoalAsync(goal); // Обновляем цель в базе данных
+
+            // Обновляем список достижений
+            MPAchievements mPAchievements = new MPAchievements();
+            mPAchievements.RefreshAchievements();
         }
 
     // Выгрузка данных целей

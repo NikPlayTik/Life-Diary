@@ -15,5 +15,6 @@ namespace LifeDiary.PageProgram
         public DateTime StartDate { get; set; }
         public string Description { get; set; }
         public double Progress { get; set; }
+        public int AchievementId { get; set; }
     }
 }

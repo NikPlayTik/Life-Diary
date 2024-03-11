@@ -62,6 +62,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="PageProgram\APAddAchievements.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="PageProgram\EPAddEntries.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

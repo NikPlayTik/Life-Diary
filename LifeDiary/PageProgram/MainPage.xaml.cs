@@ -109,7 +109,19 @@ public partial class MainPage : ContentPage
         }
     }
 
-    
+    // Загрузка недавних добавленных ДОСТИЖЕНИЙ
+    private async Task LoadLastAchievement()
+    {
+        var achievements = await App.AchievementsDatabase.GetAchievementsAsync();
+        var lastAchievement = achievements.LastOrDefault();
+        if (lastAchievement != null)
+        {
+            AchievementDateLabel.Text = lastAchievement.Date.ToString("dd.MM.yyyy HH:mm");
+            AchievementDescriptionLabel.Text = TrimDescription(lastAchievement.Description, 60);
+        }
+    }
+
+
     // Общие методы
     private void UpdateButtonState()
     {
@@ -124,6 +136,7 @@ public partial class MainPage : ContentPage
         UpdateButtonState();
         await LoadLastEntry();
         await LoadLastGoal();
+        await LoadLastAchievement();
     }
     private string TrimDescription(string description, int maxLength = 100)
     {
