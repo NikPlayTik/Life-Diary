@@ -1,5 +1,7 @@
 using Microcharts;
+using Microcharts.Maui;
 using SkiaSharp;
+using System.Globalization;
 
 namespace LifeDiary.PageProgram;
 
@@ -37,7 +39,7 @@ public partial class StatsPage : ContentPage
             
             Color = SKColor.Parse("#D6FD57")
         }).ToList();
-        var pointChart = new PointChart
+        var lineChart = new LineChart
         {
             Entries = chartEntries,
             LabelTextSize = 50f, // размер шрифта для меток
@@ -45,7 +47,7 @@ public partial class StatsPage : ContentPage
             AnimationDuration = TimeSpan.Zero,
             BackgroundColor = SKColors.Transparent
         };
-        BarChartView.Chart = pointChart;
+        BarChartView.Chart = lineChart;
 
         // Добавляем вторую диаграмму
         var chartEntriesActivity = entriesActivity.Select(e => new ChartEntry(e.Value)
@@ -86,7 +88,7 @@ public partial class StatsPage : ContentPage
             Color = SKColor.Parse("#D6FD57")
         }).ToList();
 
-        var pointChart = new PointChart
+        var lineChart = new LineChart
         {
             Entries = chartEntries,
             LabelTextSize = 50f, // размер шрифта для меток
@@ -95,7 +97,110 @@ public partial class StatsPage : ContentPage
             BackgroundColor = SKColors.Transparent
         };
 
-        GoalsChartView.Chart = pointChart;
+        GoalsChartView.Chart = lineChart;
+
+
+
+
+
+        var cultureInfo = new System.Globalization.CultureInfo("ru-RU");
+
+        // Создаем данные для первой диаграммы (Запланировано)
+        var goalsPerMonthPlanned = goals
+            .GroupBy(g => $"{cultureInfo.DateTimeFormat.GetMonthName(g.StartDate.Month)} {g.StartDate.Year}")
+            .ToDictionary(g => g.Key, g => g.Count());
+
+        // Создаем первую диаграмму
+        var chartEntriesPlanned = goalsPerMonthPlanned.Select(g => new ChartEntry(g.Value)
+        {
+            Label = g.Key,
+            ValueLabel = g.Value.ToString(),
+            ValueLabelColor = SKColor.Parse("#ffffff"),
+            Color = SKColor.Parse("#D6FD57")
+        }).ToList();
+
+        var barChartPlanned = new BarChart
+        {
+            Entries = chartEntriesPlanned,
+            LabelTextSize = 50f, // размер шрифта для меток
+            LabelColor = SKColor.Parse("#ffffff"),
+            CornerRadius = 30,
+            AnimationDuration = TimeSpan.Zero,
+            BackgroundColor = SKColors.Transparent
+        };
+
+        GoalsChartViewPlanned.Chart = barChartPlanned;
+
+        // Создаем данные для второй диаграммы (Достигнуто)
+        var goalsPerMonthAchieved = goals
+            .Where(g => g.Progress == 1) // Фильтруем цели, которые были достигнуты (выполнены на 100%)
+            .GroupBy(g => $"{cultureInfo.DateTimeFormat.GetMonthName(g.StartDate.Month)} {g.StartDate.Year}")
+            .ToDictionary(g => g.Key, g => g.Count());
+
+        // Создаем вторую диаграмму
+        var chartEntriesAchieved = goalsPerMonthAchieved.Select(g => new ChartEntry(g.Value)
+        {
+            Label = g.Key,
+            ValueLabel = g.Value.ToString(),
+            ValueLabelColor = SKColor.Parse("#ffffff"),
+            Color = SKColor.Parse("#D6FD57")
+        }).ToList();
+
+        var barChartAchieved = new BarChart
+        {
+            Entries = chartEntriesAchieved,
+            LabelTextSize = 50f, // размер шрифта для меток
+            LabelColor = SKColor.Parse("#ffffff"),
+            CornerRadius = 30,
+            AnimationDuration = TimeSpan.Zero,
+            BackgroundColor = SKColors.Transparent
+        };
+
+        GoalsChartViewAchieved.Chart = barChartAchieved;
+
+
+
+
+        // Создаем данные для диаграммы
+        var goalsPerProgressLevel = new Dictionary<string, int>
+        {
+            {"0-25", 0},
+            {"26-50", 0},
+            {"51-75", 0},
+            {"76-100", 0}
+        };
+
+        foreach (var goal in goals)
+        {
+            if (goal.Progress >= 0 && goal.Progress <= 0.25)
+                goalsPerProgressLevel["0-25"]++;
+            else if (goal.Progress >= 0.26 && goal.Progress <= 0.50)
+                goalsPerProgressLevel["26-50"]++;
+            else if (goal.Progress >= 0.51 && goal.Progress <= 0.75)
+                goalsPerProgressLevel["51-75"]++;
+            else if (goal.Progress >= 0.76 && goal.Progress <= 1)
+                goalsPerProgressLevel["76-100"]++;
+        }
+
+        // Создаем диаграмму
+        var chartEntries3 = goalsPerProgressLevel.Select(g => new ChartEntry(g.Value)
+        {
+            Label = g.Key,
+            ValueLabel = g.Value.ToString(),
+            ValueLabelColor = SKColor.Parse("#ffffff"),
+            Color = SKColor.Parse("#D6FD57")
+        }).ToList();
+
+        var barChart = new BarChart
+        {
+            Entries = chartEntries3,
+            LabelTextSize = 50f, // размер шрифта для меток
+            LabelColor = SKColor.Parse("#ffffff"),
+            AnimationDuration = TimeSpan.Zero,
+            BackgroundColor = SKColors.Transparent
+        };
+
+        ProgressGoalsChartView.Chart = barChart;
     }
 
     // Общая реализация

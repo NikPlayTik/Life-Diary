@@ -69,6 +69,25 @@
                         <Label Text="Цели по месяцам" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="20" Margin="0, 10, 0, 0"/>
                         <!-- Диаграмма 1 -->
                         <micro:ChartView x:Name="GoalsChartView" HeightRequest="300" Margin="0, 30, 0, 50"/>
+                        
+                        
+                        
+                        <!-- Заголовок 2.1-й диаграммы -->
+                        <Label Text="Кол-во целей (запланировано)" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="19" Margin="0, 10, 0, 0"/>
+                        <!-- Диаграмма 2.1 -->
+                        <micro:ChartView x:Name="GoalsChartViewPlanned" HeightRequest="300" Margin="0, 30, 0, 50"/>
+                        
+                        <!-- Заголовок 2.2-й диаграммы -->
+                        <Label Text="Кол-во целей (выполнено)" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="20" Margin="0, 10, 0, 0"/>
+                        <!-- Диаграмма 2.2 -->
+                        <micro:ChartView x:Name="GoalsChartViewAchieved" HeightRequest="300" Margin="0, 30, 0, 50"/>
+
+
+
+                        <!-- Заголовок 3-й диаграммы -->
+                        <Label Text="Цели по проценту выполнения" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="18" Margin="0, 10, 0, 0"/>
+                        <!-- Диаграмма 3 -->
+                        <micro:ChartView x:Name="ProgressGoalsChartView" HeightRequest="200" Margin="0, 30, 0, 50"/>
                     </StackLayout>
                 </Frame>
             </Grid>
