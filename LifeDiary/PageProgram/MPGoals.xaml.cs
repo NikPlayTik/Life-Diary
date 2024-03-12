@@ -160,7 +160,7 @@ public partial class MPGoals : ContentPage
 
             var dateLabel = new Label
             {
-                Text = goal.Deadline.ToString("dd.MM.yyyy"), // Изменение формата даты
+                Text = goal.Deadline.ToString("dd.MM.yyyy HH:mm"), // Изменение формата даты
                 FontAttributes = FontAttributes.Bold,
                 FontSize = 17,
                 TextColor = Color.FromHex("#FF8F62"),
@@ -171,7 +171,7 @@ public partial class MPGoals : ContentPage
             // Создаем метку для отображения оставшихся дней
             var daysLeftLabel = new Label
             {
-                Text = daysToDeadline < 1 ? "Скорее завершить!" : $"Осталось: {Math.Ceiling(daysToDeadline)} {GetDaysWord(Math.Ceiling(daysToDeadline))}",
+                Text = daysToDeadline < 1 ? "Быстрее завершить!" : $"Осталось: {Math.Ceiling(daysToDeadline)} {GetDaysWord(Math.Ceiling(daysToDeadline))}",
                 FontAttributes = FontAttributes.Bold,
                 FontSize = 14,
                 TextColor = Color.FromHex("#FF8F62"),

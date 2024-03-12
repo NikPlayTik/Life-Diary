@@ -64,7 +64,7 @@ public partial class MainPage : ContentPage
         var lastGoal = goals.LastOrDefault();
         if (lastGoal != null)
         {
-            LastGoalDate.Text = lastGoal.Deadline.ToString("dd.MM.yyyy");
+            LastGoalDate.Text = lastGoal.Deadline.ToString("dd.MM.yyyy HH:mm");
             LastGoalDescription.Text = TrimDescription(lastGoal.Description, 60);
             LastGoalProgress.Progress = lastGoal.Progress;
             LastGoalProgressPercent.Text = $"Прогресс: {lastGoal.Progress * 100}%";
@@ -75,7 +75,7 @@ public partial class MainPage : ContentPage
             // Устанавливаем текст для DaysLeftLabel в зависимости от количества дней
             if (daysToDeadline < 1)
             {
-                DaysLeftLabel.Text = "Скорее завершить! День окончания цели";
+                DaysLeftLabel.Text = "Быстрее завершить! День окончания цели";
             }
             else
             {
