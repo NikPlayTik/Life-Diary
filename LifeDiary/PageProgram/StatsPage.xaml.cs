@@ -2,6 +2,7 @@ using Microcharts;
 using Microcharts.Maui;
 using SkiaSharp;
 using System.Globalization;
+using System.Linq;
 
 namespace LifeDiary.PageProgram;
 
@@ -16,6 +17,7 @@ public partial class StatsPage : ContentPage
         App.AchievementsDatabase = new DiaryAchievementsDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DiaryAchievements.db3"));
         EntriesCharts();
         GoalsCharts();
+        AchievementsCharts();
     }
 
     public async Task EntriesCharts()
@@ -27,8 +29,20 @@ public partial class StatsPage : ContentPage
             .GroupBy(e => e.Date.ToString("MMMM"))
             .ToDictionary(g => g.Key, g => g.Count());
 
+        // Добавляем вторую диаграмму
+        var dayOfWeekToShortName = new Dictionary<DayOfWeek, string>
+        {
+            { DayOfWeek.Monday, "Пн." },
+            { DayOfWeek.Tuesday, "Вт." },
+            { DayOfWeek.Wednesday, "Ср." },
+            { DayOfWeek.Thursday, "Чт." },
+            { DayOfWeek.Friday, "Пт." },
+            { DayOfWeek.Saturday, "Сб." },
+            { DayOfWeek.Sunday, "Вс." }
+        };
+
         var entriesActivity = entries
-            .GroupBy(e => new { DayOfWeek = GetDayOfWeekInRussian(e.Date.DayOfWeek), TimeSlot = GetTimeSlot(e.Date.Hour) })
+            .GroupBy(e => new { DayOfWeek = dayOfWeekToShortName[e.Date.DayOfWeek], TimeSlot = GetTimeSlot(e.Date.Hour) })
             .ToDictionary(g => g.Key, g => g.Count());
         // Создаем диаграммы
         var chartEntries = entriesPerMonth.Select(e => new ChartEntry(e.Value)
@@ -45,11 +59,13 @@ public partial class StatsPage : ContentPage
             LabelTextSize = 50f, // размер шрифта для меток
             LabelColor = SKColor.Parse("#ffffff"),
             AnimationDuration = TimeSpan.Zero,
+            LabelOrientation = Orientation.Horizontal,
+            ValueLabelOrientation = Orientation.Horizontal,
+            Margin = 50,
             BackgroundColor = SKColors.Transparent
         };
         BarChartView.Chart = lineChart;
 
-        // Добавляем вторую диаграмму
         var chartEntriesActivity = entriesActivity.Select(e => new ChartEntry(e.Value)
         {
             Label = $"{e.Key.DayOfWeek} {e.Key.TimeSlot}",
@@ -57,6 +73,7 @@ public partial class StatsPage : ContentPage
             ValueLabelColor = SKColor.Parse("#ffffff"),
             Color = SKColor.Parse("#D6FD57")
         }).ToList();
+
         var barChartActivity = new BarChart
         {
             Entries = chartEntriesActivity,
@@ -64,11 +81,14 @@ public partial class StatsPage : ContentPage
             LabelColor = SKColor.Parse("#ffffff"),
             CornerRadius = 30,
             AnimationDuration = TimeSpan.Zero,
+            LabelOrientation = Orientation.Horizontal,
+            ValueLabelOrientation = Orientation.Horizontal,
+            Margin = 50,
             BackgroundColor = SKColors.Transparent
         };
+
         ActivityChartView.Chart = barChartActivity;
     }
-
     public async Task GoalsCharts()
     {
         // Получаем данные из базы данных
@@ -94,6 +114,9 @@ public partial class StatsPage : ContentPage
             LabelTextSize = 50f, // размер шрифта для меток
             LabelColor = SKColor.Parse("#ffffff"),
             AnimationDuration = TimeSpan.Zero,
+            LabelOrientation = Orientation.Horizontal,
+            ValueLabelOrientation = Orientation.Horizontal,
+            Margin = 50,
             BackgroundColor = SKColors.Transparent
         };
 
@@ -126,6 +149,9 @@ public partial class StatsPage : ContentPage
             LabelColor = SKColor.Parse("#ffffff"),
             CornerRadius = 30,
             AnimationDuration = TimeSpan.Zero,
+            LabelOrientation = Orientation.Horizontal,
+            ValueLabelOrientation = Orientation.Horizontal,
+            Margin = 50,
             BackgroundColor = SKColors.Transparent
         };
 
@@ -153,6 +179,9 @@ public partial class StatsPage : ContentPage
             LabelColor = SKColor.Parse("#ffffff"),
             CornerRadius = 30,
             AnimationDuration = TimeSpan.Zero,
+            LabelOrientation = Orientation.Horizontal,
+            ValueLabelOrientation = Orientation.Horizontal,
+            Margin = 50,
             BackgroundColor = SKColors.Transparent
         };
 
@@ -197,12 +226,18 @@ public partial class StatsPage : ContentPage
             LabelTextSize = 50f, // размер шрифта для меток
             LabelColor = SKColor.Parse("#ffffff"),
             AnimationDuration = TimeSpan.Zero,
+            LabelOrientation = Orientation.Horizontal,
+            ValueLabelOrientation = Orientation.Horizontal,
+            Margin = 50,
             BackgroundColor = SKColors.Transparent
         };
 
         ProgressGoalsChartView.Chart = barChart;
     }
+    public async Task AchievementsCharts()
+    {
 
+    }
     // Общая реализация
     private string GetTimeSlot(int hour)
     {
@@ -213,11 +248,6 @@ public partial class StatsPage : ContentPage
         if (hour >= 12 && hour < 15) return "12:00";
         if (hour >= 15 && hour < 18) return "18:00";
         return "21:00";
-    }
-    private string GetDayOfWeekInRussian(DayOfWeek dayOfWeek)
-    {
-        var cultureInfo = new System.Globalization.CultureInfo("ru-RU");
-        return cultureInfo.DateTimeFormat.GetDayName(dayOfWeek);
     }
 
 }
