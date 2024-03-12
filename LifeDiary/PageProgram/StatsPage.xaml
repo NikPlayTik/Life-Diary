@@ -102,7 +102,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Статистика достижеий -->
-                <Frame Grid.Row="0" Grid.Column="0"  BackgroundColor="#1F1277" Padding="15" CornerRadius="30" Margin="20, 25, 25, 0">
+                <Frame x:Name="FrameAchievements" Grid.Row="0" Grid.Column="0"  BackgroundColor="#1F1277" Padding="15" CornerRadius="30" Margin="20, 25, 25, 0">
                     <StackLayout>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -115,14 +115,18 @@
                             <Label Text="Достижения" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="25" />
 
                         </Grid>
+                                              
                         <!-- Заголовок 1-й диаграммы -->
                         <Label Text="Достижения по месяцам" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="20" Margin="0, 10, 0, 0"/>
+                                                
+                        <Label x:Name="NoDataLabel" Text="Нет данных для отрисовки статистики" IsVisible="False" VerticalOptions="Center" FontAttributes="Bold" TextColor="Red" FontSize="25" Margin="10,20,10,20"/>
+                        
                         <!-- Диаграмма 1 -->
-                        <micro:ChartView Margin="0, 10, 0, 0"/>
+                        <micro:ChartView x:Name="AchievementsChartView" HeightRequest="200" Margin="0, 30, 0, 50"/>
                         <!-- Заголовок 2-й диаграммы -->
-                        <Label Text="Связанные достижения по месцам" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" FontSize="20" Margin="0, 10, 0, 0"/>
+                        <Label Text="Связанные достижения по месяцам" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center" FontSize="20" Margin="0, 10, 0, 0"/>
                         <!-- Диаграмма 2 -->
-                        <micro:ChartView Margin="0, 10, 0, 0"/>
+                        <micro:ChartView x:Name="YourSecondChartView" HeightRequest="200" Margin="0, 30, 0, 50"/>
                         
                     </StackLayout>
                 </Frame>
