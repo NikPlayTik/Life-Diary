@@ -20,6 +20,7 @@ public partial class StatsPage : ContentPage
         AchievementsCharts();
     }
 
+
     public async Task EntriesCharts()
     {
         // Получаем данные из базы данных
