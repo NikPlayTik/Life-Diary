@@ -11,13 +11,6 @@ public partial class StatsPage : ContentPage
 	public StatsPage()
 	{
 		InitializeComponent();
-
-        App.Database = new DiaryEntryDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DiaryEntries.db3"));
-        App.GoalsDatabase = new DiaryGoalsDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DiaryGoals.db3"));
-        App.AchievementsDatabase = new DiaryAchievementsDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DiaryAchievements.db3"));
-        EntriesCharts();
-        GoalsCharts();
-        AchievementsCharts();
     }
 
 
@@ -343,6 +336,18 @@ public partial class StatsPage : ContentPage
         if (hour >= 12 && hour < 15) return "12:00";
         if (hour >= 15 && hour < 18) return "18:00";
         return "21:00";
+    }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        App.Database = new DiaryEntryDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DiaryEntries.db3"));
+        App.GoalsDatabase = new DiaryGoalsDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DiaryGoals.db3"));
+        App.AchievementsDatabase = new DiaryAchievementsDatabase(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "DiaryAchievements.db3"));
+
+        await EntriesCharts();
+        await GoalsCharts();
+        await AchievementsCharts();
     }
 
 }
