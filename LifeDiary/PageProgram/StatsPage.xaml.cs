@@ -16,6 +16,7 @@ public partial class StatsPage : ContentPage
 
     public async Task EntriesCharts()
     {
+
         // Получаем данные из базы данных
         var entries = await App.Database.GetEntriesAsync();
 
